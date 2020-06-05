@@ -32,3 +32,6 @@ cd Roshan-Mishra/SocialDistancing-YOLOv3
 ```
 python3 main.py
 ```
+
+
+Note : Download yolov3.weights from https://pjreddie.com/darknet/yolo/ and add it to the models folder before executing the file.
