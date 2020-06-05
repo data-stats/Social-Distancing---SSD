@@ -1,3 +1,0 @@
-tensorflow==1.15.0
-opencv-python==4.1.1.26
-Keras==2.1.5
