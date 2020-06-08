@@ -8,7 +8,7 @@ from aux_functions import *
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
-
+# List of points marked by user
 mouse_pts = []
 
 
@@ -35,9 +35,10 @@ args = parser.parse_args()
 
 input_video = args.videopath
 
-# Define a DNN model
+# Define a DNN model using our SSD implementation for pedestrian detection
 DNN = model()
-# Get video handle
+
+# Get video height, width, and FPS
 cap = cv2.VideoCapture(input_video)
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -73,17 +74,24 @@ first_frame_display = True
 # Process each frame, until end of video
 while cap.isOpened():
     frame_num += 1
-    ret, frame = cap.read()
+    ret, frame = cap.read()  # Get the frame
 
     if not ret:
         print("End of Video")
         break
 
-    frame_h = frame.shape[0]
-    frame_w = frame.shape[1]
+    frame_h = frame.shape[0]  # Frame height
+    frame_w = frame.shape[1]  # Frame width
 
     if frame_num == 1:
-        # Ask user to mark parallel points and two points 6 feet apart. Order bl, br, tr, tl, p1, p2
+        # Ask user to mark parallel points and two points 6 feet apart.
+        # Order is
+        # bottom left
+        # bottom right
+        # top left
+        # top right
+        # point 1 for distance scale
+        # point 2 for distance scale
         while True:
             image = frame
             cv2.imshow("image", image)
@@ -94,7 +102,7 @@ while cap.isOpened():
             first_frame_display = False
         four_points = mouse_pts
 
-        # Get perspective
+        # Get camera perspective according to the four points
         M, Minv = get_camera_perspective(frame, four_points[0:4])
         pts = src = np.float32(np.array([four_points[4:]]))
         warped_pt = cv2.perspectiveTransform(pts, M)[0]
@@ -102,6 +110,7 @@ while cap.isOpened():
             (warped_pt[0][0] - warped_pt[1][0]) ** 2
             + (warped_pt[0][1] - warped_pt[1][1]) ** 2
         )
+        # Get bird's eye view of the frame
         bird_image = np.zeros(
             (int(frame_h * scale_h), int(frame_w * scale_w), 3), np.uint8
         )

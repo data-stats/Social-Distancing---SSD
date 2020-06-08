@@ -2,6 +2,8 @@
 import cv2
 import numpy as np
 
+# Apply perspective transform and get new points.
+
 
 def get_transformed_points(boxes, mi):
 
@@ -15,7 +17,7 @@ def get_transformed_points(boxes, mi):
 
     return bottom_points
 
-# Function calculates distance between two points(humans).
+# Function calculates distance between two points of pedestrian bounding boxes.
 
 
 def cal_dis(p1, p2, distance_w, distance_h):
@@ -70,7 +72,7 @@ def get_scale(W, H):
     return float(dis_w/W), float(dis_h/H)
 
 
-# Get count of different
+# Get count of different levels of risks i.e. High risk, Low Risk, No risk or Safe
 def get_count(distances_mat):
 
     r = []
