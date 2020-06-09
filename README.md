@@ -20,13 +20,13 @@ pip3 install -r requirements.txt
 1. Clone the git repo
 
 ```
-git clone https://github.com/data-stats/Roshan-Mishra.git
+git clone https://github.com/data-stats/Social-Distancing-SSD.git
 ```
 
 2. Change directory
 
 ```
-cd Roshan-Mishra/SocialDistancing-SSD
+cd Social-Distancing-SSD
 ```
 
 3. Run the main.py file
